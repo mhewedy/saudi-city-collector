@@ -20,11 +20,12 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
 
         // save city
         for (i in 1..13) {
+            Thread.sleep(10)
             val response = query(REGION.format(i))
-            println(response.size)
             println(" *************************** start # $i ***************************")
 
             response.forEach {
+                Thread.sleep(10)
                 val loc = geo(LOCATION.format("cities", it.ID))
                 val city = City(it.ID, it.NameEnglish, it.NameArabic,
                         loc.minx?.toDouble(), loc.miny?.toDouble(),
