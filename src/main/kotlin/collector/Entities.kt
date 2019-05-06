@@ -1,5 +1,6 @@
 package collector
 
+import org.springframework.data.repository.CrudRepository
 import javax.persistence.Entity
 import javax.persistence.Id
 
@@ -25,3 +26,7 @@ data class District(@Id var id: Long?,
                     var maxy: Double?,
                     var x: Double?,
                     val y: Double?)
+
+interface CityRepository : CrudRepository<City, Long>
+
+interface DistrictRepository : CrudRepository<District, Long>

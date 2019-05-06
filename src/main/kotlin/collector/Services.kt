@@ -8,6 +8,10 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
+const val REGION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetCitiesByRegionID?RegionID=%s"
+const val CITY = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetDistrictsByCityID?CityID=%s"
+const val LOCATION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetExtent?layerName=\"%s\"&featureId=%s"
+
 @Service
 class CollectorService(restTemplateBuilder: RestTemplateBuilder,
                        private val cityRepository: CityRepository,
@@ -17,12 +21,12 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
     val restTemplate: RestTemplate = restTemplateBuilder.build()
 
     fun doCollect() {
-        //city()
+        city()
         district()
     }
 
     private fun city() {
-        val numOfCities = 13
+        val numOfCities = 13        // change for number of cities
         for (i in 1..numOfCities) {
             Thread.sleep(10)
             val response = query(REGION.format(i))
@@ -42,7 +46,7 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
     }
 
     private fun district() {
-        val numOfDistricts = 23420
+        val numOfDistricts = 23420      // change for number of districts
         for (i in 2..numOfDistricts) {
             Thread.sleep(10)
             val response = query(CITY.format(i))
