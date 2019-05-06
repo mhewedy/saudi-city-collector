@@ -8,6 +8,7 @@ import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
+const val NUM_OF_KSA_REGIONS = 13
 const val REGION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetCitiesByRegionID?RegionID=%s"
 const val CITY = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetDistrictsByCityID?CityID=%s"
 const val LOCATION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetExtent?layerName=\"%s\"&featureId=%s"
@@ -24,13 +25,14 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
     val restTemplate: RestTemplate = restTemplateBuilder.build()
 
     fun doCollect() {
-        city()
-        district()
+        val (minCityId, maxCityId) = city()
+        district(minCityId, maxCityId)
     }
 
-    private fun city() {
-        val numOfCities = 13        // change for number of cities
-        for (i in 1..numOfCities) {
+    private fun city(): Pair<Long, Long> {
+
+        for (i in 1..NUM_OF_KSA_REGIONS) {
+
             Thread.sleep(10)
             val response = query(REGION.format(i))
             println(" *************************** start # $i ***************************")
@@ -46,11 +48,12 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
                 cityRepository.save(city)
             }
         }
+        return cityRepository.findMinMaxCityId()
     }
 
-    private fun district() {
-        val numOfDistricts = 23420      // change for number of districts
-        for (i in 1..numOfDistricts) {
+    private fun district(minCityId: Long, maxCityId: Long) {
+
+        for (i in minCityId..maxCityId) {
             Thread.sleep(10)
             val response = query(CITY.format(i))
             println(" *************************** start # $i ***************************")
