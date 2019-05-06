@@ -50,7 +50,7 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
 
     private fun district() {
         val numOfDistricts = 23420      // change for number of districts
-        for (i in 2..numOfDistricts) {
+        for (i in 1..numOfDistricts) {
             Thread.sleep(10)
             val response = query(CITY.format(i))
             println(" *************************** start # $i ***************************")
