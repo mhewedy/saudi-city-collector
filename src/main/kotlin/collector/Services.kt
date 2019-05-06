@@ -17,9 +17,13 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
     val restTemplate: RestTemplate = restTemplateBuilder.build()
 
     fun doCollect() {
+        //city()
+        district()
+    }
 
-        // save city
-        for (i in 1..13) {
+    private fun city() {
+        val numOfCities = 13
+        for (i in 1..numOfCities) {
             Thread.sleep(10)
             val response = query(REGION.format(i))
             println(" *************************** start # $i ***************************")
@@ -33,6 +37,26 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
                         avg(loc.minx, loc.maxx), avg(loc.miny, loc.maxy)
                 )
                 cityRepository.save(city)
+            }
+        }
+    }
+
+    private fun district() {
+        val numOfDistricts = 23420
+        for (i in 1..numOfDistricts) {
+            Thread.sleep(10)
+            val response = query(CITY.format(i))
+            println(" *************************** start # $i ***************************")
+
+            response.forEach {
+                Thread.sleep(10)
+                val loc = geo(LOCATION.format("districts", it.ID))
+                val district = District(it.ID, i.toLong(), it.NameEnglish, it.NameArabic,
+                        loc.minx?.toDouble(), loc.miny?.toDouble(),
+                        loc.maxx?.toDouble(), loc.maxy?.toDouble(),
+                        avg(loc.minx, loc.maxx), avg(loc.miny, loc.maxy)
+                )
+                districtRepository.save(district)
             }
         }
     }
