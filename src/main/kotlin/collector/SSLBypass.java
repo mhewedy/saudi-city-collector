@@ -5,7 +5,7 @@ import java.net.Socket;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-public class Bypass {
+public class SSLBypass {
 
     public static void trustAllHosts() {
         try {
@@ -65,6 +65,4 @@ public class Bypass {
             e.printStackTrace();
         }
     }
-
-
 }

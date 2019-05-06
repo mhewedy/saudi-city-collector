@@ -71,17 +71,15 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
         }
     }
 
-    private fun query(url: String) =
-            restTemplate.exchange(url, HttpMethod.GET,
-                    HttpEntity<Void>(buildHeaders()), String::class.java).run {
-                objectMapper.readValue(cleanJson(this.body), Array<QueryResponse>::class.java)
-            }
+    private fun query(url: String) = restTemplate.exchange(url, HttpMethod.GET,
+            HttpEntity<Void>(buildHeaders()), String::class.java).run {
+        objectMapper.readValue(cleanJson(this.body), Array<QueryResponse>::class.java)
+    }
 
-    private fun geo(url: String) =
-            restTemplate.exchange(url, HttpMethod.GET,
-                    HttpEntity<Void>(buildHeaders()), String::class.java).run {
-                objectMapper.readValue(cleanJson(this.body), GeoResponse::class.java)
-            }
+    private fun geo(url: String) = restTemplate.exchange(url, HttpMethod.GET,
+            HttpEntity<Void>(buildHeaders()), String::class.java).run {
+        objectMapper.readValue(cleanJson(this.body), GeoResponse::class.java)
+    }
 
     private fun cleanJson(json: String?) = json?.removeSurrounding("{\"d\":\"", "\"}")?.replace("\\", "")
 

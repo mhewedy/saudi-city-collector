@@ -15,6 +15,6 @@ class Application(private val collectorService: CollectorService) : CommandLineR
 }
 
 fun main(args: Array<String>) {
-    Bypass.trustAllHosts()
+    SSLBypass.trustAllHosts()
     runApplication<Application>(*args)
 }
