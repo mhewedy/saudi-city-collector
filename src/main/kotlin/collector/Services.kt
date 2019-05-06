@@ -12,6 +12,9 @@ const val REGION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetCit
 const val CITY = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetDistrictsByCityID?CityID=%s"
 const val LOCATION = "https://narg.address.gov.sa/AjaxCommonWebMethods.aspx/GetExtent?layerName=\"%s\"&featureId=%s"
 
+private data class QueryResponse(val ID: Long?, val NameArabic: String?, val NameEnglish: String?)
+private data class GeoResponse(val minx: String?, val miny: String?, val maxx: String?, val maxy: String?)
+
 @Service
 class CollectorService(restTemplateBuilder: RestTemplateBuilder,
                        private val cityRepository: CityRepository,
@@ -64,9 +67,6 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
             }
         }
     }
-
-    private data class QueryResponse(val ID: Long?, val NameArabic: String?, val NameEnglish: String?)
-    private data class GeoResponse(val minx: String?, val miny: String?, val maxx: String?, val maxy: String?)
 
     private fun query(url: String) =
             restTemplate.exchange(url, HttpMethod.GET,
