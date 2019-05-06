@@ -28,7 +28,7 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
             val response = query(REGION.format(i))
             println(" *************************** start # $i ***************************")
 
-            response.forEach {
+            response?.forEach {
                 Thread.sleep(10)
                 val loc = geo(LOCATION.format("cities", it.ID))
                 val city = City(it.ID, it.NameEnglish, it.NameArabic,
@@ -43,12 +43,12 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
 
     private fun district() {
         val numOfDistricts = 23420
-        for (i in 1..numOfDistricts) {
+        for (i in 2..numOfDistricts) {
             Thread.sleep(10)
             val response = query(CITY.format(i))
             println(" *************************** start # $i ***************************")
 
-            response.forEach {
+            response?.forEach {
                 Thread.sleep(10)
                 val loc = geo(LOCATION.format("districts", it.ID))
                 val district = District(it.ID, i.toLong(), it.NameEnglish, it.NameArabic,
