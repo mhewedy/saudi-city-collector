@@ -40,11 +40,7 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
             response?.forEach {
                 Thread.sleep(10)
                 val loc = geo(LOCATION.format("cities", it.ID))
-                val city = City(it.ID, it.NameEnglish, it.NameArabic,
-                        loc.minx?.toDouble(), loc.miny?.toDouble(),
-                        loc.maxx?.toDouble(), loc.maxy?.toDouble(),
-                        avg(loc.minx, loc.maxx), avg(loc.miny, loc.maxy)
-                )
+                val city = City(it.ID, it.NameEnglish, it.NameArabic, avg(loc.miny, loc.maxy), avg(loc.minx, loc.maxx))
                 cityRepository.save(city)
             }
         }
@@ -61,11 +57,7 @@ class CollectorService(restTemplateBuilder: RestTemplateBuilder,
             response?.forEach {
                 Thread.sleep(10)
                 val loc = geo(LOCATION.format("districts", it.ID))
-                val district = District(it.ID, i.toLong(), it.NameEnglish, it.NameArabic,
-                        loc.minx?.toDouble(), loc.miny?.toDouble(),
-                        loc.maxx?.toDouble(), loc.maxy?.toDouble(),
-                        avg(loc.minx, loc.maxx), avg(loc.miny, loc.maxy)
-                )
+                val district = District(it.ID, i, it.NameEnglish, it.NameArabic, avg(loc.miny, loc.maxy), avg(loc.minx, loc.maxx))
                 districtRepository.save(district)
             }
         }
